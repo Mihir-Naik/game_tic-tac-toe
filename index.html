@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tic-Tac-Toe Game</title>
+    <script src="jquery-3.2.1.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button id="play">Play</button>
+    <button id="reset">Restart</button>
+    <div id="gamereport">
+        <h3 id="scoreboard">Score Board</h3>
+        <h3 id="playerx">Player X: 0</h3>
+        <h3 id="playero">Player O: 0</h3>
+        <h1 id="winner"></h1>            
+    </div>
+    <div class = 'grid'>
+            <div id='row1'>
+                <div class='square' id='s1'></div>
+                <div class='square' id='s2'></div>
+                <div class='square' id='s3'></div>
+            </div>
+            <div id='row2'>
+                <div class='square' id='s4'></div>
+                <div class='square' id='s5'></div>
+                <div class='square' id='s6'></div>
+            </div> 
+            <div id='row3'>
+                <div class='square' id='s7'></div>
+                <div class='square' id='s8'></div>
+                <div class='square' id='s9'></div>
+            </div>  
+        </div>
+        
+
+    <script>
+
+
+    var game = {
+        player: [{symbol: 'X', score: 0}, {symbol: 'O', score: 0}],
+        squaresFilled: 0,
+        switchPlayer: function() {
+            // switch logic
+                if(this.currentPlayer === this.player[0]){
+                  this.currentPlayer = this.player[1]
+                } else {
+                    this.currentPlayer = this.player[0]
+                }
+            },
+        checkWinner: function() {
+            // check if squares equal to each other
+            checkLine($('#s1').text(), $('#s2').text(), $('#s3').text()) 
+            checkLine($('#s4').text(), $('#s5').text(), $('#s6').text())
+            checkLine($('#s7').text(), $('#s8').text(), $('#s9').text())
+            checkLine($('#s1').text(), $('#s4').text(), $('#s7').text()) 
+            checkLine($('#s2').text(), $('#s5').text(), $('#s8').text()) 
+            checkLine($('#s3').text(), $('#s6').text(), $('#s9').text())
+            checkLine($('#s1').text(), $('#s5').text(), $('#s9').text())
+            checkLine($('#s3').text(), $('#s5').text(), $('#s7').text())
+              
+        },
+    }
+
+    
+    var $body = $('body')
+    var $play = $('#play')
+    var $reset = $('#reset')
+    var $grid = $('.grid')
+    var $square = $('.square')
+    var $gameStats = $('#gamereport')
+    var $winner = $('#winner')
+    var $playerx = $('#playerx')
+    var $playero = $('#playero')
+    var gameOver = false
+
+    var reset = function() {
+        $grid.fadeIn(1000)
+        $square.text('')
+        $winner.text("")
+        gameOver = false
+        game.squaresFilled = 0
+        game.currentPlayer = game.player[0]
+   }
+
+   $reset.on('click', reset)
+   $play.on('click', function (){
+       $grid.fadeIn(1300)
+       $gameStats.fadeIn(1500)
+       game.squaresFilled = 0
+       game.currentPlayer = game.player[0]
+   })
+    
+    $square.on('click', function() {
+        // console.log(this)
+        if(!gameOver){   
+            if ($(this).text() === ""){
+                game.squaresFilled += 1
+                $(this).text(game.currentPlayer.symbol)
+                 
+                // gameDraw()
+                game.checkWinner()
+                isGameOver()
+                game.switchPlayer()
+            } else {
+            alert('Try different spot')
+            }
+        } else {
+            alert('Restart and try to win this time..!!')
+        }
+    })
+
+    function checkLine(a,b,c) {
+                    if ((game.currentPlayer.symbol == a) && (a == b) && (b == c)) {
+                    game.currentPlayer.score +=1
+                    $winner.text(game.currentPlayer.symbol + " is a winner")
+                    $playerx.text('Player X: ' + game.player[0].score)
+                    $playero.text('Player O: ' + game.player[1].score)
+
+                    $winner.fadeIn(1000)
+                    gameOver = true    
+                    } 
+                }
+
+    function isGameOver(){
+        if ((game.squaresFilled === 9) || ($winner.text() !== "")) {
+            gameOver = true
+            if (!($winner.text() !== "")){
+                alert("Draw - Nobody Wins !!")
+            }
+            $reset.fadeIn(1000)
+        }
+    }
+}
+ 
+    </script>
+</body>
+</html>

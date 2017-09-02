@@ -1,0 +1,38 @@
+#play {
+    width: 100px;
+    height: 75px;
+    font-size: 32px;
+}
+#reset {
+    width: 125px;
+    height: 75px;
+    font-size: 32px;
+    display: none;
+}
+.grid {
+    width: 328px;
+    height: 318px;
+    border: 1px solid black;
+    background: grey;
+    display: none;
+}
+.square {
+    border: 1px solid red;
+    background: white;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 80px;
+    vertical-align: top;
+    margin: 2px;
+    font-family: 'Gochi Hand', cursive;
+}
+#gamereport {
+    width: 330px;
+    display: none;
+    border: 2px solid lime;
+}
+#winner {
+    display: none;
+}
